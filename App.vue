@@ -14,4 +14,10 @@
 
 <style>
 	/*每个页面公共css */
+	page{
+		font-size: 14px;
+		font-family: 'Microsoft YaHei',sans-serif, Arial, Helvetica,  monospace;
+		color: #333333;
+		letter-spacing:2px;
+	}
 </style>

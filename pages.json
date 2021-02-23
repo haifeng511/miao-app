@@ -31,6 +31,15 @@
 				
 			}
 	}
+        ,{
+            "path" : "pages/home/hotTopic/hotTopicList/hotTopicList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "热门话题列表",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "app-plus": {"titleNView": false} 
