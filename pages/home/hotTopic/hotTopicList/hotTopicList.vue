@@ -1,7 +1,7 @@
 <template>
 	<view class="hotTopicList-content ">
 		<view v-for="hotTopic in hotTopics" :key="hotTopic.id" >
-			<view class="hotTopic-content">
+			<view class="hotTopic-content" @click="toHotTopic(hotTopic.id)">
 				<image style="width: 185px; height: 115px; background-color: #eeeeee;border-radius: 8px;" class="hotTopic-image" :mode="aspectFill" :src="hotTopic.image"
 				 @error="imageError"></image>
 				<view class="hotTopic-title">#{{hotTopic.content}}#</view>
@@ -33,6 +33,14 @@
 				},
 			});
 		},
+		methods:{
+			toHotTopic:function(topicId){
+				console.log("toHotTopic")
+				uni.navigateTo({
+				    url: `/pages/home/hotTopic/hotTopicDetail/hotTopicDetail?topicId=${topicId}`,
+				});
+			},
+		}
 	}
 </script>
 

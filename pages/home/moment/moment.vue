@@ -1,7 +1,7 @@
 <template>
 	<view class="moment-container">
 		<view v-for="moment in moments" :key="moment.id">
-			<view class="moment-content">
+			<view class="moment-content" @click="toMomentDetail(moment.id)">
 				<image class="moment-image" :mode="scaleToFill" :src="moment.image"></image>
 				<view class="topic-title" v-if="moment.topic !== null">#{{moment.topic}}#</view>
 				<view class="moment-info">
@@ -29,14 +29,26 @@
 	export default {
 		props: {
 			moments: {
-				type: 'Object',
-				required: true
+				type: Array,
+				required: true,
+				default: function() {
+					return []
+				}
 			}
 		},
 		data() {
 			return {
-				moments: this.$props.moments
+				// 上方props定义了moments,data中不能再次定义，this.moments即可访问到父组件传来的值
+				// moments: this.moments
 			};
+		},
+		methods: {
+			toMomentDetail: function(id) {
+				console.log("toMomentDetail" + id)
+				uni.navigateTo({
+					url: `/pages/home/moment/momentDetail/momentDetail?momentId=${id}`,
+				});
+			}
 		}
 	}
 </script>
@@ -50,9 +62,10 @@
 		.moment-content {
 			margin: 8px 0;
 			width: 190px;
-			// height: 300px;
+			height: 295px;
 			border: 1px solid #ececec;
 			border-radius: 8px;
+			position: relative;			
 
 			.moment-image {
 				width: 190px;
@@ -87,17 +100,18 @@
 				}
 
 				.monent-user {
-					width: 100%;
+					width: 90%;
 					display: flex;
 					justify-content: space-between;
 					align-items: center;
+					position: absolute;
+					bottom: 8px;
 
 					.userinfo {
 						display: inline-flex;
 						align-items: center;
 
 						.moment-avatar {
-							margin: 8px 0;
 							width: 20px;
 							height: 20px;
 							background-color: #eeeeee;

@@ -10,13 +10,15 @@
 	{
             "path" : "pages/home/home",
             "style" : {
-				
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true
 			}
 	},
 	{
 	        "path" : "pages/dialog/dialog",
 	        "style" : {
-				
+				"navigationBarTitleText": "问答",
+				"enablePullDownRefresh": true
 			}
 	},
 	{
@@ -36,6 +38,42 @@
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "热门话题列表",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/moment/momentDetail/momentDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "动态详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/hotTopic/hotTopicDetail/hotTopicDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/dialog/dialogDetail/dialogDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/dialog/dialogHotList/dialogHotList",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
                 "enablePullDownRefresh": false
             }
             

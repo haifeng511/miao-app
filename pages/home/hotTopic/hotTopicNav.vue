@@ -14,7 +14,7 @@
 			<scroll-view class="scroll-view_H" scroll-x="true" scroll-left="120">
 				<view v-for="hotTopic in hotTopics" :key="hotTopic.id" class="scroll-view-item_H ">
 					<!-- {{hotTopic.content}} -->
-					<view class="image-content">
+					<view class="image-content" @click="toHotTopic(hotTopic.id)">
 						<image style="width: 170px; height: 90px; background-color: #eeeeee;" class="nav-image" :mode="aspectFill" :src="hotTopic.image"
 						 @error="imageError"></image>
 						<view class="image-title">#{{hotTopic.content}}#</view>
@@ -53,9 +53,14 @@
 		},
 		methods: {
 			hotTopicMore: function(){
-				console.log("hotTopicMore")
 				uni.navigateTo({
 				    url: '/pages/home/hotTopic/hotTopicList/hotTopicList',
+				});
+			},
+			toHotTopic:function(topicId){
+				console.log("toHotTopic")
+				uni.navigateTo({
+				    url: `/pages/home/hotTopic/hotTopicDetail/hotTopicDetail?topicId=${topicId}`,
 				});
 			},
 			imageError: function(e) {
