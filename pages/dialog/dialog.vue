@@ -15,6 +15,7 @@
 			</view>
 		</view>
 		<dialogCompent :dialogs="dialogs"></dialogCompent>
+		<view class="add-dialog"><button class="add-dialog-btn">+我要提问</button></view>
 		<view class="isOver" v-if="isOver">页面到底了</view>
 	</view>
 </template>
@@ -192,10 +193,28 @@
 		}
 	}
 
+	.add-dialog {
+		position: fixed;
+		bottom: 20px;
+		width: 100%;
+		text-align: center;
+
+		.add-dialog-btn {
+			background-color: #fdd538;
+			text-align: center;
+			width: 180px;
+			height: 50px;
+			line-height: 50px;
+			border-radius: 25px;
+			color: #333333;
+
+		}
+	}
+
 	.isOver {
 		width: 100%;
 		text-align: center;
 		color: #999999;
-		margin: 10px;
+		padding: 10px;
 	}
 </style>
