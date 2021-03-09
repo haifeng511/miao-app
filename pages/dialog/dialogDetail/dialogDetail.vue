@@ -19,7 +19,7 @@
 			<text class="title">回答</text>
 		</view>
 		<view class="comments-container">
-			<view class="comment" v-for="(comment,index) in comments" :key="index">
+			<view class="comment" v-for="(comment,index) in comments" :key="index"  v-if="comments.length >0">
 				<view class="comment-userinfo">
 					<image class="comment-avatar" :mode="aspectFill" :src="comment.avatar"></image>
 					<text class="comment-username">{{comment.username}}</text>
@@ -36,14 +36,24 @@
 				<text class="comment-num">{{dialog.seeNum}}</text>
 			</view>
 
-			<button class="add-btn">我要回答……</button>
+			<button class="add-btn" @click="toAnswer()">我要回答……</button>
 			<uni-icons type="heart" size="23" color="#3e3e3e"></uni-icons>
 			<view class="add-icon-container">
 				<uni-icons type="chatbubble" size="23" color="#3e3e3e"></uni-icons>
 				<text class="comment-num">{{dialog.comments.length}}</text>
 			</view>
-
 		</view>
+
+		<uni-popup ref="popup" type="bottom">
+			<view class="popcomment">
+				<view class="pop-top">
+					<text class="cancle" @click="close()">取消</text>
+					<text class="comment-title">评论</text>
+					<text class="send" @click="send()">发送</text>
+				</view>
+				<textarea class="text-comment" v-model="comment" auto-height placeholder="添加你的评论帮助他" />
+				</view>
+		</uni-popup>
 	</view>
 </template>
 <script>
@@ -53,6 +63,7 @@
 	export default {
 		data() {
 			return {
+				dialogId:'',
 				images: [],
 				indicatorDots: true,
 				autoplay: true,
@@ -60,9 +71,47 @@
 				duration: 1000,
 				dialog: {},
 				comments: [],
+				comment:''
 			}
 		},
 		methods: {
+			toAnswer(){
+				  // 通过组件定义的ref调用uni-popup方法
+			 this.$refs.popup.open()
+			},
+			// 弹出层点击取消按钮触发
+			 close(){
+			     // TODO 做一些其他的事情，before-close 为true的情况下，手动执行 done 才会关闭对话框
+			     this.comment = '';
+			      this.$refs.popup.close()
+			},
+			send(){
+				console.log("点击评论")
+				uni.request({
+					url: `${BASEURL}addComment`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						comment:this.comment,
+						userId:1,
+						sharesId:this.dialogId,
+						category:2
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						console.log(resp)
+					if(res.data.code == 200){
+						 this.$refs.popup.close()
+					}			
+					this.getdialogComments(this.dialogId)
+					},
+					fail() {
+				
+					}
+				});
+			},
 			getdialogComments: function(id) {
 				uni.request({
 					url: `${BASEURL}selectdialogComments`,
@@ -78,8 +127,6 @@
 						this.dialog = resp;
 						this.comments = resp.comments;
 						this.images.push(resp.image)
-						console.log(resp)
-						console.log(this.dialog.image)
 					},
 					fail() {
 
@@ -90,6 +137,7 @@
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
 			console.log(option); //打印出上个页面传递的参数。
 			this.getdialogComments(option.dialogId);
+			this.dialogId = option.dialogId;
 		}
 	}
 </script>
@@ -163,7 +211,7 @@
 	}
 
 	.comments-container {
-		padding: 10px 18px;
+		padding: 10px 18px 45px 18px;
 		display: flex;
 		flex-wrap: wrap;
 
@@ -254,5 +302,34 @@
 			font-size: 12px;
 			color: #808080;
 		}
+	}
+	
+	.popcomment{
+		padding: 10px 18px;
+		background-color: #FFFFFF;
+		border-radius:  10px 10px 0 0;
+		.pop-top{
+			display:flex;
+			justify-content: space-between;
+			.cancle{
+				color: #808080;
+			}
+			.comment-title{
+				font-size: 16px;
+			}
+			
+			.send{
+				color: #007AFF;
+			}
+			
+		}
+		.text-comment{
+			width: 100%;
+			margin: 15px 0;
+			min-height: 80px;
+			background-color: #dddddd;
+			color: #808080;
+		}
+		
 	}
 </style>

@@ -60,8 +60,22 @@
 		},
 		methods: {
 			toDialogDetail(id) {
-				uni.navigateTo({
-					url: `/pages/dialog/dialogDetail/dialogDetail?dialogId=${id}`,
+				uni.request({
+					url: `${BASEURL}clickAddDialogSeeNum`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						id: id
+					},
+					success: (res) => {
+						if(res.data.data == 1){
+							uni.navigateTo({
+								url: `/pages/dialog/dialogDetail/dialogDetail?dialogId=${id}`,
+							});
+						}
+					}
 				});
 			},
 			getHotDialogs() {

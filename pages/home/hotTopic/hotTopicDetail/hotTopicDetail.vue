@@ -5,7 +5,7 @@
 			<view class="hotTopic-content">
 				<view class="hotTopic">#{{hotTopic.content}}#</view>
 				<view class="hotTopic-num">{{hotTopic.num}}人参与</view>
-				<view class="hotTopic-intro">你是什么时候开始养宠物，开始养宠物之后你的生活有什么变化呢？发照片晒晒你家的宠物</view>
+				<view class="hotTopic-intro">{{hotTopic.introduction}}</view>
 			</view>
 		</view>
 		<moment :moments="moments"></moment>

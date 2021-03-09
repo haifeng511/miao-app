@@ -26,6 +26,9 @@
 </template>
 
 <script>
+	import {
+		BASEURL
+	} from '../../../constant/constant.js'
 	export default {
 		props: {
 			moments: {
@@ -40,14 +43,41 @@
 			return {
 				// 上方props定义了moments,data中不能再次定义，this.moments即可访问到父组件传来的值
 				// moments: this.moments
+				isClick: true
 			};
 		},
 		methods: {
 			toMomentDetail: function(id) {
-				console.log("toMomentDetail" + id)
-				uni.navigateTo({
-					url: `/pages/home/moment/momentDetail/momentDetail?momentId=${id}`,
-				});
+				console.log(id,this.isClick)
+				if (this.isClick) {
+					// this.isClick = false;
+					//事件
+					uni.request({
+						url: `${BASEURL}clickAddMomentSeeNum`,
+						headers: {
+							'Content-Type': 'application/json'
+						},
+						method: 'POST',
+						data: {
+							id: id
+						},
+						success: (res) => {
+							if(res.data.data == 1){
+								console.log("toMomentDetail" + id)
+								
+							}
+						}
+					});
+					// //定时器
+					// setTimeout(function() {
+					// 	this.isClick = true;
+					// }, 1500); //一秒内不能重复点击
+					
+					uni.navigateTo({
+						url: `/pages/home/moment/momentDetail/momentDetail?momentId=${id}`,
+					});
+				}
+				
 			}
 		}
 	}
@@ -57,7 +87,8 @@
 	.moment-container {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: space-around;
+		justify-content: space-between;
+		padding: 10px;
 
 		.moment-content {
 			margin: 8px 0;
@@ -65,7 +96,7 @@
 			height: 295px;
 			border: 1px solid #ececec;
 			border-radius: 8px;
-			position: relative;			
+			position: relative;
 
 			.moment-image {
 				width: 190px;
@@ -75,9 +106,13 @@
 			}
 
 			.topic-title {
-				margin: 8px 10px 5px 10px;
+				padding: 8px 10px 5px 10px;
 				font-size: 12px;
 				color: #007AFF;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				word-break: break-all;
 			}
 
 			.moment-info {

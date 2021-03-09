@@ -15,7 +15,7 @@
 			</view>
 		</view>
 		<dialogCompent :dialogs="dialogs"></dialogCompent>
-		<view class="add-dialog"><button class="add-dialog-btn">+我要提问</button></view>
+		<view class="add-dialog"><button class="add-dialog-btn" @click="toAddDialog()">+我要提问</button></view>
 		<view class="isOver" v-if="isOver">页面到底了</view>
 	</view>
 </template>
@@ -43,15 +43,35 @@
 			this.getDialogs();
 		},
 		methods: {
+			toAddDialog() {
+				uni.navigateTo({
+					url: '/pages/dialog/releaseDialog/releaseDialog',
+				});
+			},
 			toHotDialogPage() {
 				uni.navigateTo({
 					url: `/pages/dialog/dialogHotList/dialogHotList`,
 				});
 			},
 			toDialogDetail(id) {
-				uni.navigateTo({
-					url: `/pages/dialog/dialogDetail/dialogDetail?dialogId=${id}`,
+				uni.request({
+					url: `${BASEURL}clickAddDialogSeeNum`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						id: id
+					},
+					success: (res) => {
+						if(res.data.data == 1){
+							uni.navigateTo({
+								url: `/pages/dialog/dialogDetail/dialogDetail?dialogId=${id}`,
+							});
+						}
+					}
 				});
+				
 			},
 			getHotDialogs() {
 				uni.request({
@@ -96,7 +116,7 @@
 				console.log('refresh');
 				this.page = 1;
 				this.dialogs = [];
-				this.getDialogs()();
+				this.getDialogs();
 				// 停止刷新
 				setTimeout(function() {
 					uni.stopPullDownRefresh();
@@ -108,7 +128,7 @@
 					return this.isOver = true;
 				}
 				this.page = this.page + 1;
-				this.getDialogs()();
+				this.getDialogs();
 
 			}
 		}

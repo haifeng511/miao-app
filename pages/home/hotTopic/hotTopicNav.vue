@@ -131,6 +131,10 @@
 			color: #FFFFFF;
 			z-index: 3;
 			letter-spacing:3px;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+			overflow: hidden;
+			word-break: break-all;
 		}
 	}
 </style>
