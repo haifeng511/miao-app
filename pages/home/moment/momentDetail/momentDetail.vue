@@ -164,8 +164,6 @@
 				text-align: center;
 			}
 		}
-
-
 	}
 
 
