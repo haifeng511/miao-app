@@ -1,41 +1,55 @@
 <template>
 	<view>
-		首页hk9
-		<hotTopicNav></hotTopicNav>
-		<view class="gray-line"></view>
-		<view class="title-container">
-			<uni-icons type="list" size="18" color="#ffca2c"></uni-icons>
-			<text class="title">推荐动态</text>
+		<view>
+			<view>推荐动态</view>
+			<view @click="toIfEat()">能不能吃</view>
+			<view>养宠知识</view>
 		</view>
-		<moment :moments="moments"></moment>
-		<view class="addMoment" @click="toReleaseMoment()">
-			<view class="add-icon">
-				<uni-icons type="camera-filled" size="23" color="#ffffff"></uni-icons>
-				<view>发布</view>
+		<view class="home-container">
+			<hotTopicNav></hotTopicNav>
+			<view class="gray-line"></view>
+			<view class="title-container">
+				<uni-icons type="list" size="18" color="#ffca2c"></uni-icons>
+				<text class="title">推荐动态</text>
 			</view>
-
+			<moment :moments="moments"></moment>
+			<view class="addMoment" @click="toReleaseMoment()">
+				<view class="add-icon">
+					<uni-icons type="camera-filled" size="23" color="#ffffff"></uni-icons>
+					<view>发布</view>
+				</view>
+			</view>
+			<view class="isOver" v-if="isOver">页面到底了</view>
 		</view>
-		<view class="isOver" v-if="isOver">页面到底了</view>
 	</view>
-
+	
 </template>
 
-<script>
-
-</script>
 <script>
 	import {
 		BASEURL
 	} from '../../constant/constant.js'
 	import hotTopicNav from './hotTopic/hotTopicNav.vue'
 	import moment from './moment/moment.vue'
+	// import Tabs from '../../components/wiszx-tabs/tabs.vue'
+	// import TabPane from '../../components/wiszx-tabs/tabPane.vue'
+	// import eatIndex from './eat/eatIndex/eatIndex.vue'
 	export default {
 		components: {
 			hotTopicNav,
-			moment
+			moment,
+			// eatIndex,
+			// Tabs,
+			// TabPane
 		},
 		data() {
 			return {
+				// current:0,
+				// TabList:[
+				//     {title:'推荐动态'},
+				//     {title:'能不能吃'},
+				//     {title:'养宠知识'}
+				// ],
 				moments: [],
 				page: 1,
 				isOver: false
@@ -45,6 +59,15 @@
 			this.getMoments();
 		},
 		methods: {
+			// tabsChange(index){
+			//     this.current = index
+			// },
+			toIfEat() {
+				console.log('toifeat');
+				uni.navigateTo({
+					url: '/pages/home/eat/eatIndex/eatIndex',
+				});
+			},
 			toReleaseMoment() {
 				uni.navigateTo({
 					url: '/pages/home/moment/releaseMoment/releaseMoment',
@@ -94,6 +117,9 @@
 </script>
 
 <style lang="scss">
+	// .home-container{
+	// 	position:relative;
+	// }
 	.isOver {
 		width: 100%;
 		text-align: center;

@@ -24,7 +24,8 @@
 	{
 	        "path" : "pages/shop/shop",
 	        "style" : {
-				
+				"navigationBarTitleText": "商城",
+				"enablePullDownRefresh": true
 			}
 	},
 	{
@@ -89,6 +90,69 @@
         }
         ,{
             "path" : "pages/dialog/releaseDialog/releaseDialog",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/goodsDetail/goodsDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/goodsSearch/goodsSearch",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/categoryGoods/categoryGoods",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+       ,{
+           "path" : "pages/home/eat/eatIndex/eatIndex",
+           "style" :                                                                                    
+           {
+               "navigationBarTitleText": "",
+               "enablePullDownRefresh": false
+           }
+           
+       }
+        ,{
+            "path" : "pages/home/eat/eatFoodDetail/eatFoodDetail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/eat/eatFoodSearch/eatFoodSearch",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+               "enablePullDownRefresh": true
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/eat/eatFoodsCategory/eatFoodsCategory",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

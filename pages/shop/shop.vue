@@ -27,20 +27,20 @@
 				</view>
 			</view>
 			<view class="mid-nav-icon">
-				<view class="image-text">
-					<image class="nav-image" :mode="aspectFill" :src="1"></image>
+				<view class="image-text" @click="toCategoryGoods(0)">
+					<image class="nav-image" :mode="aspectFill" :src="img"></image>
 					<view>精选主粮</view>
 				</view>
-				<view class="image-text">
-					<image class="nav-image" :mode="aspectFill" :src="1"></image>
+				<view class="image-text" @click="toCategoryGoods(1)">
+					<image class="nav-image" :mode="aspectFill" :src="img"></image>
 					<view>美味零食</view>
 				</view>
-				<view class="image-text">
-					<image class="nav-image" :mode="aspectFill" :src="1"></image>
+				<view class="image-text" @click="toCategoryGoods(2)">
+					<image class="nav-image" :mode="aspectFill" :src="img"></image>
 					<view>营养保健</view>
 				</view>
-				<view class="image-text">
-					<image class="nav-image" :mode="aspectFill" :src="1"></image>
+				<view class="image-text" @click="toCategoryGoods(3)">
+					<image class="nav-image" :mode="aspectFill" :src="img"></image>
 					<view>玩具用品</view>
 				</view>
 			</view>
@@ -51,22 +51,77 @@
 					<uni-icons type="heart-filled" color="#ff6363" size="18"></uni-icons>
 					<text>猜你喜欢</text>
 				</view>
-
+				
 			</view>
 		</view>
+		<goods :goodsList = "goodsList"></goods>
+		<view class="isOver" v-if="isOver">页面到底了</view>
 	</view>
 </template>
 
 <script>
+	import {
+		BASEURL
+	} from '../../constant/constant.js';
+	import goods from './goods.vue';
 	export default {
+		components: {
+			goods
+		},
 		data() {
 			return {
+				img:'http://localhost/miao/images/cbb71274-af8d-4ba6-a5e0-4011f4fff524.jpg',
 				swiperGoods: [],
+				goodsList:[],
+				page: 1,
+				isOver: false
 			}
 		},
+		mounted() {
+			this.getGoodsList();
+		},
 		methods: {
+			toCategoryGoods(category){
+				// 跳转到分类商品页面
+				uni.navigateTo({
+					url: `/pages/shop/categoryGoods/categoryGoods?category=${category}`,
+				});
+			},
 			toSearchGoods() {
 				// 跳转到搜索商品页面
+				uni.navigateTo({
+					url: `/pages/shop/goodsSearch/goodsSearch`,
+				});
+			},
+			getGoodsList(){
+				let oldGoodsList = this.goodsList;
+				uni.request({
+					url: `${BASEURL}selectGoodsPage`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'GET',
+					data: {
+						page: this.page
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						console.log(resp);
+						this.goodsList = [...this.goodsList, ...resp];
+						console.log(this.goodsList)
+					},
+					fail() {
+						this.goodsList = oldGoodsList;
+					}
+				});
+			},
+			onReachBottom() {
+				if (this.goodsList.length < this.page * 6) {
+					return this.isOver = true;
+				}
+				this.page = this.page + 1;
+				this.getGoodsList();
+			
 			}
 		}
 	}
@@ -74,9 +129,10 @@
 
 <style lang="scss">
 	.shop-container {
-		padding: 15px 20px;
+		padding: 10px;
 
 		.search-btn {
+			margin: 10px;
 			padding: 0 10px;
 			background-color: #f4f1f2;
 			height: 30px;
@@ -138,6 +194,13 @@
 					}
 				}
 			}
+		}
+		
+		.isOver {
+			width: 100%;
+			text-align: center;
+			color: #999999;
+			margin: 10px;
 		}
 	}
 </style>
