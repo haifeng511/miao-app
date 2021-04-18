@@ -41,7 +41,9 @@
 			</view>
 			<view class="gray-line"></view>
 			<view class="read-text">推荐阅读</view>
-			<eatfoodItem :foods="foods"></eatfoodItem>
+			<view class="food-list">
+				<eatfoodItem :foods="foods"></eatfoodItem>
+			</view>
 			<view class="isOver" v-if="isOver">页面到底了</view>
 		</view>
 	</view>
@@ -116,7 +118,6 @@
 <style lang="scss">
 	.eat-container {
 		padding: 10px;
-
 		.search-btn {
 			margin: 10px;
 			padding: 0 10px;
@@ -156,6 +157,10 @@
 				height: 20px;
 				background-color: #f5f5f5;
 			}
+			
+		.food-list{
+			background-color: #f5f5f5;
+		}	
 		.read-text {
 			margin: 10px 0;
 			font-size: 20px;

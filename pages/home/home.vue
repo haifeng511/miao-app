@@ -3,7 +3,7 @@
 		<view>
 			<view>推荐动态</view>
 			<view @click="toIfEat()">能不能吃</view>
-			<view>养宠知识</view>
+			<view @click="toShares()">养宠知识</view>
 		</view>
 		<view class="home-container">
 			<hotTopicNav></hotTopicNav>
@@ -62,6 +62,11 @@
 			// tabsChange(index){
 			//     this.current = index
 			// },
+			toShares(){
+				uni.navigateTo({
+					url: '/pages/home/shares/sharesIndex/sharesIndex',
+				});
+			},
 			toIfEat() {
 				console.log('toifeat');
 				uni.navigateTo({
