@@ -1,9 +1,9 @@
 <template>
 	<view>
-		<view>
-			<view>推荐动态</view>
-			<view @click="toIfEat()">能不能吃</view>
-			<view @click="toShares()">养宠知识</view>
+		<view class="head-title">
+			<view class="head-item-line">推荐动态</view>
+			<view class="head-item" @click="toIfEat()">能不能吃</view>
+			<view class="head-item" @click="toShares()">养宠知识</view>
 		</view>
 		<view class="home-container">
 			<hotTopicNav></hotTopicNav>
@@ -22,7 +22,6 @@
 			<view class="isOver" v-if="isOver">页面到底了</view>
 		</view>
 	</view>
-	
 </template>
 
 <script>
@@ -31,25 +30,13 @@
 	} from '../../constant/constant.js'
 	import hotTopicNav from './hotTopic/hotTopicNav.vue'
 	import moment from './moment/moment.vue'
-	// import Tabs from '../../components/wiszx-tabs/tabs.vue'
-	// import TabPane from '../../components/wiszx-tabs/tabPane.vue'
-	// import eatIndex from './eat/eatIndex/eatIndex.vue'
 	export default {
 		components: {
 			hotTopicNav,
 			moment,
-			// eatIndex,
-			// Tabs,
-			// TabPane
 		},
 		data() {
 			return {
-				// current:0,
-				// TabList:[
-				//     {title:'推荐动态'},
-				//     {title:'能不能吃'},
-				//     {title:'养宠知识'}
-				// ],
 				moments: [],
 				page: 1,
 				isOver: false
@@ -59,10 +46,7 @@
 			this.getMoments();
 		},
 		methods: {
-			// tabsChange(index){
-			//     this.current = index
-			// },
-			toShares(){
+			toShares() {
 				uni.navigateTo({
 					url: '/pages/home/shares/sharesIndex/sharesIndex',
 				});
@@ -125,6 +109,34 @@
 	// .home-container{
 	// 	position:relative;
 	// }
+	.head-title {
+		display: flex;
+		padding: 10px;
+
+		.head-item {
+			color: #a2a2a2;
+			font-size: 18px;
+			padding: 3px;
+		}
+
+		.head-item-line {
+			color: #a2a2a2;
+			font-size: 18px;
+			padding: 3px;
+			// border-bottom:  2px solid #fdd123;
+		}
+
+		.head-item-line:after {
+			margin-top: 4px;
+			background-color: #fdd123;
+			content: "";
+			display: block; //块级元素
+			width: 100%;
+			height: 2px;
+			transform: scaleX(0.85); //横向收缩
+		}
+	}
+
 	.isOver {
 		width: 100%;
 		text-align: center;
@@ -141,6 +153,7 @@
 	.title-container {
 		padding: 10px;
 		border-bottom: 1px solid #dedede;
+
 		.title {
 			font-size: 16px;
 			font-weight: 700;

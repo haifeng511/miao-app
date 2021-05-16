@@ -52,7 +52,8 @@
 				topic:'',
 				topicId:'',
 				content:'',
-				images:[]
+				images:[],
+				userid:''
 			}
 		},
 		mounted() {
@@ -66,8 +67,19 @@
 					this.hotTopics = res.data.data;
 				},
 			});
+			
+			this.getUser();
 		},
 		methods: {
+			getUser(){
+				let _this = this;
+				uni.getStorage({
+					key: 'user',
+					success: function(res) {
+						_this.userid = res.data.id;
+					}
+				});
+			},
 			cancleImage(index){
 				this.chooseImages.splice(index, 1); 
 				this.images.splice(index, 1); 
@@ -110,12 +122,23 @@
 					data: {
 						"content":this.content,
 						"topicId":this.topicId,
-						"userId":1,
+						"userId":this.userid,
 						"image":image
 					},
 					success: (res) => {
 						let resp = res.data.data;
-						console.log(resp)
+						if(resp === 1){
+							uni.showToast({
+							    title: '发表动态成功！',
+								icon:'success',
+							    duration: 2000
+							});
+							setTimeout(function(){
+								uni.navigateBack({
+								    delta: 1
+								});
+							},2500)
+						}
 					},
 					fail() {
 						

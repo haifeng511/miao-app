@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="goods-detail-containner">
 		<view class="swiper-containner">
 			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="carousel in carousels" :key=index>
@@ -92,8 +92,37 @@
 				<button class="confirm-btn" @click="goodsServiceClose()">确定</button>
 			</view>
 		</uni-popup>
+		<uni-popup ref="orderPopup" type="bottom">
+			<view class="orderPopup">
+				<view class="order-goods">
+					<image class="order-goods-img" :mode="aspectFill" :src="carousels[0].image"></image>
+					<view class="order-title">{{goods.title}}</view>
+				</view>
+				<view class="order-num">
+					<view>商品数量</view>
+					<sunui-stepper :label='1' :max="10" :val="count" :min="1" @change="stepper"></sunui-stepper>
+				</view>
+				<button class="cancle-btn" @click="goodsAddCancle()">取消加入</button>
+				<button class="confirm-btn" @click="goodsAddCart()">加入购物车</button>
+			</view>
+		</uni-popup>
 		<!-- <uni-goods-nav :fill="true"  :options="options" :buttonGroup="buttonGroup"  @click="onClick" @buttonClick="buttonClick" /> -->
-		<uni-goods-nav :fill="true" />
+		<!-- <uni-goods-nav :fill="true"  :options="options"/> -->
+	
+	<view class="goood-nav-container">
+	<view class="goods-nav">
+		<view class="icon-container">
+			<uni-icons type="shop" size="18" color="#646566"></uni-icons>
+			<view>客服</view>
+		</view>
+		<view class="icon-container" @click="toGoodCart()">
+			<uni-icons type="cart" size="20" color="#646566"></uni-icons>
+			<view>购物车</view>
+		</view>
+		<view class="add-cart" @click="addCart()">加入购物车</view>
+		<view class="to-buy">立即购买</view>
+	</view>
+	</view>
 	</view>
 </template>
 
@@ -101,17 +130,51 @@
 	import {
 		BASEURL
 	} from '../../../constant/constant.js';
-	import uniGoodsNav from '../../../components/uni-goods-nav/uni-goods-nav.vue'
+	import sunuiStepper from '../../../components/sunui-stepper/sunui-stepper.vue'
+	// import uniGoodsNav from '../../../components/uni-goods-nav/uni-goods-nav.vue'
 	export default {
-		components: {uniGoodsNav},
+		components: {
+			sunuiStepper
+			// uniGoodsNav
+			},
 		data() {
 			return {
 				goodsId: '',
 				goods: {},
-				carousels: []
+				carousels: [],
+				count:1,//加入购物车的数量
+				userid:''
 			}
 		},
+		mounted() {
+			this.getUser();
+		},
 		methods: {
+			toGoodCart(){
+				// 跳转到购物车
+				console.log('跳转到购物车')
+				uni.navigateTo({
+					url: `/pages/shop/cartPage/cartPage`,
+				});
+			},
+			getUser(){
+				let _this = this;
+				uni.getStorage({
+					key: 'user',
+					success: function(res) {
+						_this.userid = res.data.id;
+					}
+				});
+			},
+			 stepper(e) {
+				 this.count = e.val;
+			 },
+			addCart(){
+				this.$refs.orderPopup.open()
+			},
+			goodsAddCancle(){
+				this.$refs.orderPopup.close()
+			},
 			goodsParamPop(){
 				this.$refs.paramPopup.open()
 			},
@@ -123,6 +186,29 @@
 			},
 			goodsServiceClose(){
 				this.$refs.servicePopup.close()
+			},
+			goodsAddCart(){
+				uni.request({
+					url: `${BASEURL}addOrder`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						userId:this.userid,
+						state:0,
+						goodId:this.goodsId,
+						orderNum:this.count,
+						orderPrice:this.goods.salePrice
+					}, 
+					success: (res) => {
+						let resp = res.data.data;	
+						this.goodsAddCancle();
+					},
+					fail() {
+				
+					}
+				});
 			},
 			getGoodsDetail(id) {
 				uni.request({
@@ -139,6 +225,7 @@
 						this.goods = resp;
 						this.carousels = resp.carousels;
 						console.log(this.goods)
+						console.log('轮播图--------------')
 						console.log(this.carousels)
 
 					},
@@ -149,7 +236,6 @@
 			}
 		},
 		onLoad: function(option) { //option为object类型，会序列化上个页面传递的参数
-			console.log(option); //打印出上个页面传递的参数。
 			this.getGoodsDetail(option.goodsId);
 			this.goodsId = option.goodsId;
 		}
@@ -157,6 +243,46 @@
 </script>
 
 <style lang="scss">
+	.goods-detail-containner{
+		padding-bottom: 50px;
+	}
+	.goood-nav-container{
+		position: fixed;
+		bottom: 0px;
+		width: 100%;
+		background-color: #FFFFFF;
+	}
+	.goods-nav{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-top: 1px solid #f5f5f5;
+		padding: 5px;
+		
+		.icon-container{
+			width: 50px;
+			text-align: center;
+		}
+		.add-cart{
+			border-radius: 18px;
+			width: 110px;
+			height: 36px;
+			background-color: #ffa200;
+			color: #fff;
+			line-height: 36px;
+			text-align: center;
+		}
+		.to-buy{
+			border-radius: 18px;
+			width: 110px;
+			height: 36px;
+			background-color: #ff0000;
+			color: #fff;
+			line-height: 36px;
+			text-align: center;
+		}
+	}
+	
 	.gray-line{
 		height: 20px;
 		background-color: #f5f5f5;
@@ -371,6 +497,52 @@
 			font-size: 18px;
 			font-weight: 700;
 			text-align: center;
+		}
+	}
+	
+	.orderPopup{
+		background-color: #FFFFFF;
+		z-index: 99;
+		padding: 15px 10px;
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		.order-goods{
+			width: 90%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			.order-goods-img{
+				width: 120px;
+				height: 120px;
+			}
+			.order-title{
+				
+			}
+			
+			
+		}
+		.order-num{
+			margin: 10px 0 30px 0;
+			width: 90%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+		.cancle-btn{
+			background-color: #f5f5f5;
+			width: 130px;
+			border-radius: 20px;
+			height: 40px;
+			line-height: 40px;
+		}
+		.confirm-btn{
+			background-color: #ff7878;
+			color:#FFFFFF;
+			border-radius: 20px;
+			height: 40px;
+			width: 130px;
+			line-height: 40px;
 		}
 	}
 </style>

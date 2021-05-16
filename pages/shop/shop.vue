@@ -55,6 +55,12 @@
 			</view>
 		</view>
 		<goods :goodsList = "goodsList"></goods>
+		<view class="addCart" @click="toGoodCart()">
+			<view class="add-icon">
+				<uni-icons type="cart" size="23" color="#ffffff"></uni-icons>
+			<!-- 	<view>购物车</view> -->
+			</view>
+		</view>
 		<view class="isOver" v-if="isOver">页面到底了</view>
 	</view>
 </template>
@@ -81,6 +87,13 @@
 			this.getGoodsList();
 		},
 		methods: {
+			toGoodCart(){
+				// 跳转到购物车
+				console.log('跳转到购物车')
+				uni.navigateTo({
+					url: `/pages/shop/cartPage/cartPage`,
+				});
+			},
 			toCategoryGoods(category){
 				// 跳转到分类商品页面
 				uni.navigateTo({
@@ -193,6 +206,27 @@
 						background-color: #C0C0C0;
 					}
 				}
+			}
+		}
+		
+		
+		.addCart {
+			background-color: #ffca2c;
+			width: 54px;
+			height: 54px;
+			border-radius: 27px;
+			text-align: center;
+			position: fixed;
+			bottom: 50px;
+			right: 20px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			box-shadow: 3px 3px 2px #d9d9d9;
+		
+			.add-icon {
+				color: #FFFFFF;
+				font-size: 14px;
 			}
 		}
 		

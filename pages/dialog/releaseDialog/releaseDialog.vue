@@ -34,10 +34,23 @@
 				chooseImages:[],
 				dialogTitle:'',
 				content:'',
-				images:[]
+				images:[],
+				userid:''
 			}
 		},
+		mounted() {
+			this.getUser();
+		},
 		methods: {
+			getUser(){
+				let _this = this;
+				uni.getStorage({
+					key: 'user',
+					success: function(res) {
+						_this.userid = res.data.id;
+					}
+				});
+			},
 			cancleImage(index){
 				this.chooseImages.splice(index, 1); 
 				this.images.splice(index, 1); 
@@ -76,12 +89,23 @@
 					data: {
 						"content":this.content,
 						"dialogTitle":this.dialogTitle,
-						"userId":1,
+						"userId":this.userid,
 						"image":image
 					},
 					success: (res) => {
 						let resp = res.data.data;
-						console.log(resp)
+						if(resp === 1){
+							uni.showToast({
+							    title: '提问成功！',
+								icon:'success',
+							    duration: 2000
+							});
+							setTimeout(function(){
+								uni.navigateBack({
+								    delta: 1
+								});
+							},2500)
+						}
 					},
 					fail() {
 						

@@ -1,9 +1,9 @@
 <template>
 	<view>
-	<view v-if="toLogin">
+<!-- 	<view v-if="toLogin">
 		<button open-type="getUserInfo" v-on:click="login()">登录</button>
-	</view>
-	<view  v-if="getUser" class="self-container">
+	</view> -->
+	<view  class="self-container">
 		<view class="userinfo-container">
 			<image class="user-image" :mode="aspectFill" :src="avator"></image>
 			<text class="user-name"> {{username}}</text>
@@ -12,15 +12,19 @@
 		<view class="self-list">
 			<view class="self-text">个人中心</view>
 			<view class="self-list-icon">
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toMyMoment()">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>我的动态</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toMyDialog()">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>我的问答</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
+					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<view>我的收藏</view>
+				</view>
+				<view class="image-text" @click="toAddressPage()">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>地址管理</view>
 				</view>
@@ -30,17 +34,13 @@
 		<view class="self-list">
 			<view class="self-text">我的订单</view>
 			<view class="self-list-icon">
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toGoodCart()">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>购物车</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toGoodCart()">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>待付款</view>
-				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
-					<view>待发货</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
@@ -68,10 +68,6 @@
 					<image class="self-icon" :mode="aspectFill" :src="img"></image>
 					<view>关于我们</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
-					<view>退出登录</view>
-				</view>
 			</view>
 		</view>
 	</view>
@@ -85,58 +81,56 @@
 	export default {
 		data() {
 			return {
-				toLogin:true,
-				getUser:false,
 				avator:'',
 				username:'Alice'
 			}
 		},
+		onLoad() {
+			this.getUserInfo();
+		},
 		methods: {
-			login() {
-			let _this = this;
-				uni.login({
-					provider: 'weixin',
-					success: function(loginRes) {
-						console.log(loginRes);
-						if (loginRes.code) {
-							//发起网络请求
-							uni.request({
-								// 请求路径
-								url: `${BASEURL}wxLogin`,
-								// 请求参数code
-								data: {
-									code: loginRes.code
-								},
-								method: 'GET',
-								success(res) {
-									// 请求成功后获取openid和session_key
-									console.log("用户openID",res.data.data)
-									// console.log(_this.userinfo.username);
-									// 获取用户信息
-									uni.getUserInfo({
-										provider: 'weixin',
-										success: function(infoRes) {
-											console.log(infoRes);
-											// console.log(_this.userinfo.username);
-											console.log('用户昵称为：' + infoRes.userInfo.nickName);
-											_this.username = infoRes.userInfo.nickName;
-											_this.avator = infoRes.userInfo.avatarUrl;
-											_this.getUser = true;
-											_this.toLogin = false;
-									console.log(_this.username);
-									
-										},
-										fail() {
-											console.log("fail")
-										}
-									});
-								}
-							});
-						}
+			toAddressPage(){
+				// 跳转到地址管理
+				uni.navigateTo({
+					url: `/pages/self/address/addressPage/addressPage`,
+				});
+			},
+			toGoodCart(){
+				// 跳转到购物车
+				uni.navigateTo({
+					url: `/pages/shop/cartPage/cartPage`,
+				});
+			},
+			getUserInfo(){
+				let userInfo = {
+					nickName: '',
+					avatarUrl: ''
+				};
+				let _this = this;
+				uni.getStorage({
+					key: 'userInfo',
+					success: function(res) {
+						userInfo = res.data;
+						_this.avator = userInfo.avatarUrl;
+						_this.username = userInfo.nickName;
 					}
 				});
-			}
+			},
+			toMyMoment(){
+				uni.navigateTo({
+					url: '/pages/self/myMoment/myMoment',
+				});
+			},
+			toMyDialog(){
+				uni.navigateTo({
+					url: '/pages/self/myDialog/myDialog',
+				});
+			},
+		},
+		mounted() {
+			// this.getUserInfo();
 		}
+		
 	}
 </script>
 
