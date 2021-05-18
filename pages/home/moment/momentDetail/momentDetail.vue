@@ -59,7 +59,7 @@
 					<text class="comment-title">评论</text>
 					<text class="send" @click="send()">发送</text>
 				</view>
-				<textarea class="text-comment" v-model="comment" auto-height placeholder="添加你的评论帮助他" />
+				<textarea class="text-comment" v-model="comment" auto-height placeholder="请添加你的评论" />
 				</view>
 		</uni-popup>
 	</view>
@@ -74,15 +74,28 @@
 				images: [],
 				indicatorDots: true,
 				autoplay: true,
-				interval: 2000,
+				interval: 3500,
 				duration: 1000,
 				moment: {},
 				comments: [],
 				comment:'',
-				momentId:''
+				momentId:'',
+				userid:''
 			}
 		},
+		mounted() {
+			this.getUser();
+		},
 		methods: {
+			getUser(){
+				let _this = this;
+				uni.getStorage({
+					key: 'user',
+					success: function(res) {
+						_this.userid = res.data.id;
+					}
+				});
+			},
 			toComment(){
 				  // 通过组件定义的ref调用uni-popup方法
 			 this.$refs.popup.open()
@@ -102,7 +115,7 @@
 					method: 'POST',
 					data: {
 						comment:this.comment,
-						userId:1,
+						userId:this.userid,
 						sharesId:this.momentId,
 						category:1
 					},
@@ -131,11 +144,10 @@
 					},
 					success: (res) => {
 						let resp = res.data.data;
+						console.log(resp)
 						this.moment = resp;
 						this.comments = resp.comments;
-						this.images.push(resp.image)
-						console.log(resp)
-					
+						this.images = resp.image.split(',');					
 					},
 					fail() {
 

@@ -7,35 +7,35 @@
 			</view>
 			<view class="mid-nav-icon">
 				<view class="image-text" @click="toCategoryEatFood(7)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="center" :src="imageUrl+ 'food-category/1.png'"></image>
 					<view>水产海鲜</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(6)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/2.png'"></image>
 					<view>肉蛋类</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(5)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/3.png'"></image>
 					<view>奶豆制品</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(4)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/4.png'"></image>
 					<view>蔬菜</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(3)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/5.png'"></image>
 					<view>水果</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(2)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/5.png'"></image>
 					<view>零食甜点</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(0)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/7.png'"></image>
 					<view>主食</view>
 				</view>
 				<view class="image-text" @click="toCategoryEatFood(1)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'food-category/8.png'"></image>
 					<view>饮料</view>
 				</view>
 			</view>
@@ -51,15 +51,16 @@
 
 <script>
 	import {
-		BASEURL
-	} from '../../../../constant/constant.js'
-	import eatfoodItem from '../eatFoodItem.vue'
+		BASEURL,BASRIMAGEURL
+	} from '../../../../constant/constant.js';
+	import eatfoodItem from '../eatFoodItem.vue';
 	export default {
 		components: {
 			eatfoodItem
 		},
 		data() {
 			return {
+				imageUrl:BASRIMAGEURL,
 				isOver: false,
 				foods: [],
 				page: 1,
@@ -147,7 +148,7 @@
 						width: 60px;
 						height: 60px;
 						border-radius: 30px;
-						background-color: #C0C0C0;
+						// background-color: #C0C0C0;
 					}
 				}
 			}

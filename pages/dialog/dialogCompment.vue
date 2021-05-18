@@ -13,7 +13,7 @@
 					</view>
 				</view>
 				<view class="dialog-image-container" v-if="dialog.image != '' ">
-					<image class="dialog-image" :mode="aspectFill" :src="dialog.image"></image>
+					<image class="dialog-image" :mode="aspectFill" :src="dialog.image.split(',')[0]"></image>
 				</view>
 			</view>
 			<view class="dialog-other">
@@ -133,7 +133,7 @@
 				padding: 5px;
 				width: 120px;
 				height: 90px;
-				background-color: #eeeeee;
+				// background-color: #eeeeee;
 
 				.dialog-image {
 					width: 120px;

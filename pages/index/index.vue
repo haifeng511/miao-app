@@ -46,7 +46,6 @@
 				uni.login({
 					success: (res) => {
 						code = res.code
-						console.log(res.code);
 					}
 				});
 				uni.getUserProfile({
@@ -79,13 +78,9 @@
 							},
 							method: 'GET',
 							success(res) {
-								console.log(res.data.data)
 								uni.setStorage({
 									key: 'user',
-									data: res.data.data.user,
-									success: function() {
-										console.log('缓存user成功');
-									}
+									data: res.data.data.user
 								});
 								if(res.data.data.num ==0){
 									let wxid = res.data.data.openid;

@@ -4,10 +4,30 @@
 			<image class="food-image" :mode="aspectFill" :src="food.image"></image>
 		</view>
 		<view class="food-eat-info">
-			<view>{{food.child}}奶猫</view>
-			<view>幼年</view>
-			<view>成年</view>
-			<view>老年</view>
+		<view class="eat-content">
+		<image v-if="food.child == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+		<image v-if="food.child == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+		<image v-if="food.child == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+		<text>奶猫</text>
+		</view>
+		<view class="eat-content">
+		<image v-if="food.youth == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+		<image v-if="food.youth == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+		<image v-if="food.youth == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+		<text>幼年</text>
+		</view>
+		<view class="eat-content">
+		<image v-if="food.adult == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+		<image v-if="food.adult == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+		<image v-if="food.adult == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+		<text>成年</text>
+		</view>
+		<view class="eat-content">
+		<image v-if="food.old == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+		<image v-if="food.old == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+		<image v-if="food.old == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+		<text>老年</text>
+		</view>
 		</view>
 		<view class="food-content">
 			<view class="food-title">
@@ -22,13 +42,14 @@
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from  '../../../../constant/constant.js'
 	export default {
 		data() {
 			return {
 				foodId:'',
-				food:{}
+				food:{},
+				imageUrl:BASRIMAGEURL,
 			}
 		},
 		mounted() {
@@ -68,16 +89,29 @@
 		padding: 10px;
 		.food-image-container{
 			height: 210px;
-			border-radius: 10px;
+			border-radius: 15px;
 			.food-image{
 				width: 100%;
 				height: 210px;
+				border-radius: 15px;
 			}
 		}
 		
 		.food-eat-info{
+			margin-top: 10px;
 			display: flex;
 			justify-content: space-around;
+			.eat-content{
+				display: flex;
+				justify-content: space-around;
+				align-items: center;
+				.eat-icon{
+					padding: 3px;
+					width: 12px;
+					height: 12px;
+					border-radius: 50%;
+				}
+			}
 		}
 		
 		.food-content{

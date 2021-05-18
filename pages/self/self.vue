@@ -13,19 +13,19 @@
 			<view class="self-text">个人中心</view>
 			<view class="self-list-icon">
 				<view class="image-text" @click="toMyMoment()">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/1.png'"></image>
 					<view>我的动态</view>
 				</view>
 				<view class="image-text" @click="toMyDialog()">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/2.png'"></image>
 					<view>我的问答</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/3.png'"></image>
 					<view>我的收藏</view>
 				</view>
 				<view class="image-text" @click="toAddressPage()">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/4.png'"></image>
 					<view>地址管理</view>
 				</view>
 			</view>
@@ -35,19 +35,19 @@
 			<view class="self-text">我的订单</view>
 			<view class="self-list-icon">
 				<view class="image-text" @click="toGoodCart()">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/5.png'"></image>
 					<view>购物车</view>
 				</view>
 				<view class="image-text" @click="toGoodCart()">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/6.png'"></image>
 					<view>待付款</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/7.png'"></image>
 					<view>待收货</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/8.png'"></image>
 					<view>售后服务</view>
 				</view>
 			</view>
@@ -57,15 +57,15 @@
 			<view class="self-text">更多功能</view>
 			<view class="self-list-icon">
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="aspectFit" :src="imageUrl+ 'self/9.png'"></image>
 					<view>宠物识别</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="scaleToFill" :src="imageUrl+ 'self/10.png'"></image>
 					<view>意见投诉</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="self-icon" :mode="aspectFill" :src="img"></image>
+					<image class="self-icon" :mode="scaleToFill" :src="imageUrl+ 'self/11.png'"></image>
 					<view>关于我们</view>
 				</view>
 			</view>
@@ -76,11 +76,12 @@
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from '../../constant/constant.js';
 	export default {
 		data() {
 			return {
+				imageUrl:BASRIMAGEURL,
 				avator:'',
 				username:'Alice'
 			}
@@ -171,10 +172,11 @@
 				padding: 10px 0;
 				
 				.self-icon {
-					width: 60px;
-					height: 60px;
-					border-radius: 30px;
-					background-color: #C0C0C0;
+					padding: 5px;
+					width: 40px;
+					height: 40px;
+					border-radius: 20px;
+					// background-color: #C0C0C0;
 				}
 			}
 		}

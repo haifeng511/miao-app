@@ -3,8 +3,8 @@
 		<view class="dialog-content">
 			<view class="dialog-title">{{dialog.dialogTitle}}</view>
 			<view class="dialog">{{dialog.content}}</view>
-			<view class="dialog-image-container" v-if="dialog.image != '' ">
-				<image class="dialog-image" :mode="aspectFill" :src="dialog.image"></image>
+			<view class="dialog-image-container" v-if="dialog.image != '' " v-for="(img,index) in dialog.image.split(',')">
+				<image class="dialog-image" :mode="aspectFill" :src="img"></image>
 			</view>
 			<view class="userinfo">
 				<image class="dialog-avatar" :mode="aspectFill" :src="dialog.avatar"></image>
@@ -71,10 +71,23 @@
 				duration: 1000,
 				dialog: {},
 				comments: [],
-				comment:''
+				comment:'',
+				userid:''
 			}
 		},
+		mounted() {
+			this.getUser();
+		},
 		methods: {
+			getUser(){
+				let _this = this;
+				uni.getStorage({
+					key: 'user',
+					success: function(res) {
+						_this.userid = res.data.id;
+					}
+				});
+			},
 			toAnswer(){
 				  // 通过组件定义的ref调用uni-popup方法
 			 this.$refs.popup.open()
@@ -86,7 +99,6 @@
 			      this.$refs.popup.close()
 			},
 			send(){
-				console.log("点击评论")
 				uni.request({
 					url: `${BASEURL}addComment`,
 					headers: {
@@ -95,7 +107,7 @@
 					method: 'POST',
 					data: {
 						comment:this.comment,
-						userId:1,
+						userId:this.userid,
 						sharesId:this.dialogId,
 						category:2
 					},

@@ -110,9 +110,12 @@
 			},
 			addMoment(){
 				let image = '';
-				for(let i=0;i<this.images.length;i++){
-					image = this.images[i]+' '
+				if(this.images.length > 1){
+					image = this.images.join(',');
+				}else if(this.images.length == 1){
+					image = this.images[0];
 				}
+				
 				uni.request({
 					url: `${BASEURL}addMoment`,
 					headers: {

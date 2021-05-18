@@ -2,7 +2,7 @@
 	<view class="moment-container">
 		<view v-for="moment in moments" :key="moment.id">
 			<view class="moment-content" @click="toMomentDetail(moment.id)">
-				<image class="moment-image" :mode="scaleToFill" :src="moment.image"></image>
+				<image class="moment-image" :mode="scaleToFill" :src="moment.image.split(',')[0]"></image>
 				<view class="topic-title" v-if="moment.topic !== null">#{{moment.topic}}#</view>
 				<view class="moment-info">
 					<view class="moment">{{moment.content}}</view>
@@ -43,7 +43,8 @@
 			return {
 				// 上方props定义了moments,data中不能再次定义，this.moments即可访问到父组件传来的值
 				// moments: this.moments
-				isClick: true
+				isClick: true,
+				// img:'',//图片
 			};
 		},
 		methods: {

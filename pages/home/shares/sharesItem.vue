@@ -69,6 +69,7 @@
 			padding-left: 10px;
 			
 			.share-title {
+				width: 285px;
 				font-size: 20px;
 				font-weight: 700;
 				overflow: hidden;
@@ -81,10 +82,10 @@
 				overflow: hidden;
 				text-overflow: ellipsis;
 				display: -webkit-box;
-				-webkit-line-clamp: 2;
+				-webkit-line-clamp: 3;
 				-webkit-box-orient: vertical;
 				display: -moz-box;
-				-moz-line-clamp: 2;
+				-moz-line-clamp: 3;
 				-moz-box-orient: vertical;
 				word-wrap: break-word;
 				word-break: break-all;

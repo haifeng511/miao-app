@@ -63,9 +63,9 @@
 					 var data = uni.getStorageSync('searchData');
 				    data = data ? JSON.parse(data) : [];
 					this.history = data;
-					console.log(this.history)
 			},
 			clearHistorySearch(){
+				// 清除历史记录
 				this.history = [];
 				uni.setStorageSync('searchData', this.history);
 			},
@@ -97,10 +97,12 @@
 				});
 			},
 			onReachBottom() {
+				// 判断是否是最后一页
 				if (this.goodsList.length < this.page * 6) {
 					return this.isOver = true;
 				}
 				this.page = this.page + 1;
+				// 获取数据
 				this.getSearchGoods();
 			
 			},
@@ -116,7 +118,8 @@
 				}, 1000);
 			},
 			search(e) {
-				if(this.history.length > 3){
+				// 搜索
+				if(this.history.length > 10){
 					uni.showToast({
 						icon:'none',
 					    title: '请先清除历史搜索记录',

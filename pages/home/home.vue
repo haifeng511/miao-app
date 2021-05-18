@@ -84,7 +84,6 @@
 			}
 		},
 		onPullDownRefresh() {
-			console.log('refresh');
 			this.page = 1;
 			this.moments = [];
 			this.getMoments();

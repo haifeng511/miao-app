@@ -16,7 +16,7 @@
 					</view>
 				</view>
 				<view class="dialog-image-container" v-if="dialog.image != '' ">
-					<image class="dialog-image" :mode="aspectFill" :src="dialog.image"></image>
+					<image class="dialog-image" :mode="aspectFill" :src="dialog.image.split(',')[0]"></image>
 				</view>
 			</view>
 			<view class="dialog-other">

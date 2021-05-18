@@ -13,10 +13,30 @@
 						{{food.content}}
 					</view>
 					<view class="food-eat-info">
-						<view>{{food.child}}奶猫</view>
-						<view>幼年</view>
-						<view>成年</view>
-						<view>老年</view>
+						<view class="eat-content">
+						<image v-if="food.child == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+						<image v-if="food.child == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+						<image v-if="food.child == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+						<text>奶猫</text>
+						</view>
+						<view class="eat-content">
+						<image v-if="food.youth == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+						<image v-if="food.youth == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+						<image v-if="food.youth == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+						<text>幼年</text>
+						</view>
+						<view class="eat-content">
+						<image v-if="food.adult == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+						<image v-if="food.adult == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+						<image v-if="food.adult == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+						<text>成年</text>
+						</view>
+						<view class="eat-content">
+						<image v-if="food.old == 0" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/no.png'"></image>
+						<image v-if="food.old == 1" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/warn.png'"></image>
+						<image v-if="food.old == 2" class="eat-icon" :mode="aspectFill" :src="imageUrl+ 'food-category/yes.png'"></image>
+						<text>老年</text>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -26,7 +46,7 @@
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from '../../../constant/constant.js'
 	export default {
 		props: {
@@ -40,7 +60,7 @@
 		},
 		data() {
 			return {
-
+				imageUrl:BASRIMAGEURL,
 			};
 		},
 		methods: {
@@ -108,6 +128,17 @@
 			.food-eat-info {
 				display: flex;
 				justify-content: space-around;
+				.eat-content{
+					display: flex;
+					justify-content: space-around;
+					align-items: center;
+					.eat-icon{
+						padding: 3px;
+						width: 12px;
+						height: 12px;
+						border-radius: 50%;
+					}
+				}
 			}
 		}
 	}

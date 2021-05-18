@@ -28,19 +28,19 @@
 			</view>
 			<view class="mid-nav-icon">
 				<view class="image-text" @click="toCategoryGoods(0)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'goods/goods-category-1.png'"></image>
 					<view>精选主粮</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(1)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'goods/goods-category-2.png'"></image>
 					<view>美味零食</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(2)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'goods/goods-category-3.png'"></image>
 					<view>营养保健</view>
 				</view>
 				<view class="image-text" @click="toCategoryGoods(3)">
-					<image class="nav-image" :mode="aspectFill" :src="img"></image>
+					<image class="nav-image" :mode="aspectFill" :src="imageUrl+ 'goods/goods-category-4.png'"></image>
 					<view>玩具用品</view>
 				</view>
 			</view>
@@ -67,7 +67,7 @@
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from '../../constant/constant.js';
 	import goods from './goods.vue';
 	export default {
@@ -76,8 +76,8 @@
 		},
 		data() {
 			return {
-				img:'http://localhost/miao/images/cbb71274-af8d-4ba6-a5e0-4011f4fff524.jpg',
-				swiperGoods: [],
+				imageUrl:BASRIMAGEURL,
+				swiperGoods: [{"image":BASRIMAGEURL+'goods/bg-intro.png'}],
 				goodsList:[],
 				page: 1,
 				isOver: false

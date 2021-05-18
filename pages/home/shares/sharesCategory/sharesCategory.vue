@@ -45,7 +45,7 @@
 					},
 					method: 'GET',
 					data: {
-						title:'',
+						title:this.title,
 						page: this.page,
 						category:this.category,
 						limit:8
