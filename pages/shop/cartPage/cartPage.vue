@@ -28,10 +28,10 @@
 								mode="" @tap="goodsCheck(indexq,indexw,itemw.checked)"></image>
 							<image src="../../../static/not_select.png" v-else class="checked-image" mode=""
 								@tap="goodsCheck(indexq,indexw,itemw.checked)"></image>
-							<view class="goodsInfo-right" @click="goodsDetail(itemw.id)">
-								<image :src="itemw.img" class="goods-image" mode=""></image>
+							<view class="goodsInfo-right" >
+								<image :src="itemq.orderList[indexw].image" class="goods-image" mode="" @click="goodsDetail(itemw.id)"></image>
 								<view class="goodsInfo-box">
-									<text class="goods-name">{{itemw.title}}</text>
+									<text class="goods-name" @click="goodsDetail(itemw.id)">{{itemw.title}}</text>
 									<!-- <text class="spe">规格：{{itemw.remark}}</text> -->
 									<view class="goods-box">
 										<text class="goods-price">¥{{itemw.salePrice}}</text>
@@ -128,6 +128,7 @@
 				});
 			},
 			goodsCart() {
+				// var orderList = [];
 				uni.request({
 					url: `${BASEURL}selectOrderCategory`,
 					headers: {
@@ -137,6 +138,7 @@
 					data: {
 						userId: this.userid,
 						state: 0,
+						// orderList:[]
 					},
 					success: (res) => {
 						let resp = res.data.data;
@@ -236,12 +238,48 @@
 				} else {
 					this.datas[storeIndex].orderList[goodsIndex].orderNum--
 				}
-				this.statistics()
+				this.statistics();
+				//修改order
+				uni.request({
+					url: `${BASEURL}updateOrder`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						orderNum: this.datas[storeIndex].orderList[goodsIndex].orderNum,
+						id: this.datas[storeIndex].orderList[goodsIndex].id,
+					},
+					success: (res) => {
+						let resp = res.data.data;
+					},
+					fail() {
+				
+					}
+				});
 			},
 			//增加
 			add(storeIndex, goodsIndex, goodsnum) {
 				this.datas[storeIndex].orderList[goodsIndex].orderNum++
-				this.statistics()
+				this.statistics();
+				//修改order
+				uni.request({
+					url: `${BASEURL}updateOrder`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						"orderNum": this.datas[storeIndex].orderList[goodsIndex].orderNum,
+						"id": this.datas[storeIndex].orderList[goodsIndex].id,
+					},
+					success: (res) => {
+						let resp = res.data.data;
+					},
+					fail() {
+				
+					}
+				});
 			},
 			//全选
 			allCheck() {
@@ -283,8 +321,29 @@
 			},
 			accounts() {
 				let judge = this.judgeSelect();
-				console.log(judge)
 				if (judge.length > 0) {
+						console.log(judge)
+						//修改order的状态
+						uni.request({
+							url: `${BASEURL}updateOrderListState`,
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							method: 'POST',
+							data: judge,
+							success: (res) => {
+								let resp = res.data.data;
+								let orders = JSON.stringify(judge);
+								uni.navigateTo({
+									url: `/pages/shop/checkOrder/checkOrder?orderList=${orders}`,
+								});
+								
+							},
+							fail() {
+						
+							}
+						});
+						
 					
 				} else {
 					uni.showToast({

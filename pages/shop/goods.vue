@@ -1,13 +1,14 @@
 
 <template>
 	<view class="goods-container">
-		<view v-for="goods in goodsList" :key="goods.id">
+		<view v-if="goodsList.length > 0" v-for="goods in goodsList" :key="goods.id">
 			<view class="goods-content" @click="goodsDetail(goods.id)">
 				<image class="goods-cover" :mode="scaleToFill" :src="goods.carousels[0].image"></image>
 				<view class="goods-title">{{goods.title}}</view>
 				<view class="goods-price">￥{{goods.salePrice}}</view>
 			</view>
 		</view>
+		<view v-if="goodsList.length == 0" class="no-data">暂无数据</view>
 	</view> 
 </template>
 
@@ -41,6 +42,12 @@
 </script>
 
 <style lang="scss">
+	.no-data{
+		padding: 15px;
+		text-align: center;
+		color: #999999;
+		font-size: 18px;
+	}
 .goods-container{
 	display: flex;
 	flex-wrap: wrap;

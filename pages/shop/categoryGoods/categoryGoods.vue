@@ -5,8 +5,8 @@
 			<text class="search-text">请输入商品名称</text>
 		</view>
 		<view class="category-orderby">
-			<text @click="categoryGoodsOrderby()" class="orderby-text">综合</text>
-			<text @click="categoryGoodsOrderby()" class="orderby-text-checked">销量</text>
+			<text @click="categoryGoodsOrderby()" class="orderby-text-checked">综合</text>
+			<text @click="categoryGoodsOrderby()" class="orderby-text">销量</text>
 			<text @click="categoryGoodsOrderby()" class="orderby-text">价格</text>
 		</view>
 		<goods :goodsList = "goodsList"></goods> 

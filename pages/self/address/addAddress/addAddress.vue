@@ -63,6 +63,7 @@
 						"detail":this.detail,
 						"area":this.area,
 						"userId":this.userid,
+						"ifDefault":1
 					},
 					success: (res) => {
 						let resp = res.data.data;

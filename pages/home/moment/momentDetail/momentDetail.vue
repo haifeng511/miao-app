@@ -43,8 +43,9 @@
 		
 			<button class="add-btn" @click="toComment()">请赐评</button>
 			<view class="add-icon-container">
-			<uni-icons type="heart" size="23" color="#3e3e3e"></uni-icons>
-			<text class="comment-num">{{moment.likeNum}}</text>
+			<uni-icons  v-if="ifCollection" type="star-filled" size="23" color="#3e3e3e" @click="deleteCollection()" ></uni-icons>
+			<uni-icons v-else type="star" size="23" color="#3e3e3e" @click="addCollection()" ></uni-icons>
+			<!-- <text class="comment-num">{{moment.likeNum}}</text> -->
 			</view>
 			<view class="add-icon-container">
 				<uni-icons type="chatbubble" size="23" color="#3e3e3e"></uni-icons>
@@ -80,19 +81,100 @@
 				comments: [],
 				comment:'',
 				momentId:'',
-				userid:''
+				userid:'',
+				ifCollection:false
 			}
 		},
 		mounted() {
 			this.getUser();
 		},
 		methods: {
+			deleteCollection(){
+				uni.request({
+					url: `${BASEURL}deleteCollection`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						momentsId:this.momentId,
+						userId:this.userid
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						console.log(resp)
+						if(resp !== null){
+							this.ifCollection = false;
+							uni.showToast({
+							    title: '取消收藏成功！',
+								icon:'success',
+							    duration: 2000
+							});
+						}
+					},
+					fail() {
+				
+					}
+				});
+			},
+			addCollection(){
+				uni.request({
+					url: `${BASEURL}addCollection`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'POST',
+					data: {
+						momentsId:this.momentId,
+						userId:this.userid
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						console.log(resp)
+						if(resp !== null){
+							this.ifCollection = true;
+							uni.showToast({
+							    title: '收藏成功！',
+								icon:'success',
+							    duration: 2000
+							});
+						}
+					},
+					fail() {
+				
+					}
+				});
+			},
+			getIfCollection(){
+				uni.request({
+					url: `${BASEURL}judegCollection`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'GET',
+					data: {
+						momentsId:this.momentId,
+						userId:this.userid
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						console.log(resp)
+						if(resp !== null){
+							this.ifCollection = true;
+						}
+					},
+					fail() {
+				
+					}
+				});
+			},
 			getUser(){
 				let _this = this;
 				uni.getStorage({
 					key: 'user',
 					success: function(res) {
 						_this.userid = res.data.id;
+						_this.getIfCollection();
 					}
 				});
 			},

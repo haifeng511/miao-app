@@ -139,6 +139,10 @@
 			},
 		data() {
 			return {
+				indicatorDots: true,
+				autoplay: true,
+				interval: 3500,
+				duration: 1000,
 				goodsId: '',
 				goods: {},
 				carousels: [],
@@ -225,9 +229,7 @@
 						this.goods = resp;
 						this.carousels = resp.carousels;
 						console.log(this.goods)
-						console.log('轮播图--------------')
-						console.log(this.carousels)
-
+						console.log('--------------')
 					},
 					fail() {
 

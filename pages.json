@@ -232,6 +232,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/shop/checkOrder/checkOrder",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/self/myColllection/myColllection",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "app-plus": {"titleNView": false} 

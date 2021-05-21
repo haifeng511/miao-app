@@ -17,7 +17,7 @@
 			</view>
 			<view v-for="goods in searchGoods" :key="goods.id">
 				<view class="goods-content" @click="goodsDetail(goods.id)">
-					<image class="goods-cover" :mode="scaleToFill" :src="goods.carousels[0].image"></image>
+					<image class="goods-cover"  :mode="scaleToFill" :src="goods.carousels[0].image"></image>
 					<view class="goods-detail">
 						<view class="goods-title">{{goods.title}}</view>
 						<view class="goods-price">
@@ -201,10 +201,11 @@
 		}
 		
 		.goods-detail{
-			padding: 15px;
+			padding: 15px 0;
+			width: auto;
 			
 			.goods-title{
-				width: 100%;
+				// width: 70%;
 				font-weight: 700;
 				font-size: 18px;
 				overflow: hidden;

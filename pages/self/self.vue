@@ -20,7 +20,7 @@
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/2.png'"></image>
 					<view>我的问答</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toMyCollection()">
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/3.png'"></image>
 					<view>我的收藏</view>
 				</view>
@@ -127,6 +127,11 @@
 					url: '/pages/self/myDialog/myDialog',
 				});
 			},
+			toMyCollection(){
+				uni.navigateTo({
+					url: '/pages/self/myColllection/myColllection',
+				});
+			}
 		},
 		mounted() {
 			// this.getUserInfo();

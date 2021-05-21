@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		<view class="logo-container">
-			<image class="logo" src="/static/logo.png"></image>
+			<image class="logo" :src="imageUrl+ 'login-bg.png'"></image>
 		</view>
 		<view class="text-area">
 			<view class="confirm-title">请确认以下授权信息：</view>
@@ -13,11 +13,13 @@
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from '../../constant/constant.js'
 	export default {
 		data() {
-			return {}
+			return {
+				imageUrl:BASRIMAGEURL,
+			}
 		},
 		onLoad() {
 			let userInfo = {
@@ -161,7 +163,7 @@
 
 	.confirm-btn {
 		width: 80%;
-		background-color: #2b9939;
+		background-color: #b8d4ec;
 		color: #FFFFFF;
 		margin: 10px auto;
 	}
