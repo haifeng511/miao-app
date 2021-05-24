@@ -89,7 +89,7 @@
 									// 添加用户信息
 									let user = {
 										username: nickName,
-										phone: '177',
+										phone: '',
 										wxid: wxid,
 										avatar: avatarUrl
 									}

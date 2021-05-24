@@ -1,8 +1,5 @@
 <template>
 	<view>
-<!-- 	<view v-if="toLogin">
-		<button open-type="getUserInfo" v-on:click="login()">登录</button>
-	</view> -->
 	<view  class="self-container">
 		<view class="userinfo-container">
 			<image class="user-image" :mode="aspectFill" :src="avator"></image>
@@ -38,7 +35,7 @@
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/5.png'"></image>
 					<view>购物车</view>
 				</view>
-				<view class="image-text" @click="toGoodCart()">
+				<view class="image-text" @click="toCheckOrder()">
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/6.png'"></image>
 					<view>待付款</view>
 				</view>
@@ -46,7 +43,7 @@
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/7.png'"></image>
 					<view>待收货</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toNoDataPage()">
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/8.png'"></image>
 					<view>售后服务</view>
 				</view>
@@ -60,11 +57,11 @@
 					<image class="self-icon" :mode="aspectFit" :src="imageUrl+ 'self/9.png'"></image>
 					<view>宠物识别</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toNoDataPage()">
 					<image class="self-icon" :mode="scaleToFill" :src="imageUrl+ 'self/10.png'"></image>
 					<view>意见投诉</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toNoDataPage()">
 					<image class="self-icon" :mode="scaleToFill" :src="imageUrl+ 'self/11.png'"></image>
 					<view>关于我们</view>
 				</view>
@@ -130,6 +127,16 @@
 			toMyCollection(){
 				uni.navigateTo({
 					url: '/pages/self/myColllection/myColllection',
+				});
+			},
+			toCheckOrder(){
+				uni.navigateTo({
+					url: '/pages/shop/checkOrder/checkOrder',
+				});
+			},
+			toNoDataPage(){
+				uni.navigateTo({
+					url: '/pages/self/noData/noData',
 				});
 			}
 		},

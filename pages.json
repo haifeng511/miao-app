@@ -250,6 +250,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/self/noData/noData",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/paySuccess/paySuccess",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "app-plus": {"titleNView": false} 

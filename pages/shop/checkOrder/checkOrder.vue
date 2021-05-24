@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="shop-car">
+		<view class="shop-car" v-if="orderList.length > 0">
 			<view class="common-car">
 				<view class="shop-car">
 					<view class="shop-car-header">
@@ -57,16 +57,25 @@
 
 			<!-- <image src="" mode=""></image> -->
 		</view>
+		<view v-else class="content">
+			<view class="data-container">
+				<image class="no-data" :src="imageUrl+ 'null.png'"></image>
+			</view>
+			<view class="text-area">
+				<view class="title">暂无数据</view>
+			</view>
+		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		BASEURL
+		BASEURL,BASRIMAGEURL
 	} from '../../../constant/constant.js'
 	export default {
 		data() {
 			return {
+				imageUrl:BASRIMAGEURL,
 				userid: '',
 				// goodsProducts: [],
 				datas: {},
@@ -101,8 +110,6 @@
 					},
 					success: (res) => {
 						let resp = res.data.data;
-						console.log('-------------')
-						console.log(resp)
 						if(resp != null){
 							this.ifAddress = true;
 						}
@@ -149,7 +156,11 @@
 					key: 'user',
 					success: function(res) {
 						_this.userid = res.data.id;
-						_this.getCheckOrder();
+						if(_this.orderList.length === 0){
+							_this.getUnPayOrder();
+						}else{
+								_this.getCheckOrder();
+						}
 						_this.getDefaultAddress();
 					}
 				});
@@ -172,22 +183,24 @@
 				let judge = this.judgeSelect();
 				if (judge.length > 0) {
 						console.log(judge)
-						//修改order的状态
-						// uni.request({
-						// 	url: `${BASEURL}updateOrderListState`,
-						// 	headers: {
-						// 		'Content-Type': 'application/json'
-						// 	},
-						// 	method: 'POST',
-						// 	data: judge,
-						// 	success: (res) => {
-						// 		let resp = res.data.data;
-						// 		console.log('==============')
-						// 	},
-						// 	fail() {
+						// 修改order的状态
+						uni.request({
+							url: `${BASEURL}updateOrderListStateBuy`,
+							headers: {
+								'Content-Type': 'application/json'
+							},
+							method: 'POST',
+							data: judge,
+							success: (res) => {
+								let resp = res.data.data;
+								if(resp !== null){
+									this.toPaySuccess();
+								}
+							},
+							fail() {
 						
-						// 	}
-						// });
+							}
+						});
 						
 					
 				} else {
@@ -211,15 +224,81 @@
 				// return judge
 				return selectArr
 			},
+			toPaySuccess(){
+				uni.navigateTo({
+					url: '/pages/shop/paySuccess/paySuccess',
+				});
+			},
+			getUnPayOrder(){
+				//查看未付款的订单信息
+				uni.request({
+					url: `${BASEURL}selectUnPayedOrder`,
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					method: 'GET',
+					data: {
+						userId: this.userid,
+						state: 1,
+					},
+					success: (res) => {
+						let resp = res.data.data;
+						this.orderList = resp;
+						this.getCheckOrder();
+						
+					},
+					fail() {
+				
+					}
+				});
+			},
 		},
 		onLoad(option) {
-			this.orderList = JSON.parse(option.orderList);
+			if(option.orderList !== undefined){
+				console.log('--------------')
+				console.log(option.orderList)
+				this.orderList = JSON.parse(option.orderList);
+			}
+			
 			this.getUser();
+					
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
+	.data-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		margin: 120px 0 30px 0;
+	}
+	
+	.no-data {
+		height: 120px;
+		width: 220px;
+	}
+	
+	.text-area {
+		text-align: center;
+	
+	}
+	
+	.confirm-title {
+		font-size: 36rpx;
+		color: #666666;
+		font-weight: 700;
+		margin: 10px 0;
+	}
+	
+	.title {
+		font-size: 36rpx;
+		color: #8f8f94;
+	}
+	
+	
+	
 	.add-address-text{
 		margin: 10px 0;
 		width: 750rpx;
