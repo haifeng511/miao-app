@@ -268,6 +268,24 @@
             }
             
         }
+        ,{
+            "path" : "pages/self/catIdentification/catIdentification",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+        ,{
+            "path" : "pages/shop/unreceiptedGoods/unreceiptedGoods",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
     ],
   "globalStyle": {
     "app-plus": {"titleNView": false} 

@@ -1,32 +1,21 @@
 <template>
 	<view>
-		<view class="shop-car" v-if="orderList.length > 0">
+		<view class="shop-car" v-if="datas.length > 0">
 			<view class="common-car">
 				<view class="shop-car">
 					<view class="shop-car-header">
-						<text>确定订单</text>
+						<text>未收货信息</text>
 					</view>
 					<view class="address-container">
-						<view class="address-item" v-if="ifAddress">
-							<picker style="width: 95%;" @change="bindPickerChange($event,addressArray)"
-								:value="addressIndex" :range="addressArray" :range-key="'picktext'">
+						<view class="address-item">
 								<view class="address">
 									<view class="contact">
-										<text class="name">{{addressArray[addressIndex].name}}</text>
-										<text>{{addressArray[addressIndex].phone}}</text>
+										<text class="name">{{address.name}}</text>
+										<text>{{address.phone}}</text>
 									</view>
 									<view class="address-detail">
-										{{addressArray[addressIndex].area}}{{addressArray[addressIndex].detail}}</view>
+										{{address.area}}{{address.detail}}</view>
 								</view>
-								<!-- 	<view class="edit">
-									<uni-icons type="compose" size="26" color="#cdcdcd" @click="toEditAddress(address)">
-									</uni-icons>
-								</view> -->
-							</picker>
-						</view>
-
-						<view v-else @click="toAddAddress()" class="add-address-text">
-							<text class="add-text">点击添加地址</text>
 						</view>
 					</view>
 					<view class="store-box" v-for="(itemq,indexq) in datas" :key="indexq">
@@ -54,11 +43,11 @@
 					</view>
 					<view class="statistics-box">
 						<view class="statistics">
-							<view class="statistics-right" @tap="accounts">
+							<view class="statistics-right">
 								<text>运费：</text><text class="text-color">¥{{freightPrice}}</text>
 								<text>总计：</text><text class="text-color">¥{{total}}</text>
 								<view class="btn">
-									<text>结算</text>
+									<!-- <text>结算</text> -->
 								</view>
 							</view>
 						</view>
@@ -67,8 +56,6 @@
 				</view>
 				<slot></slot>
 			</view>
-
-			<!-- <image src="" mode=""></image> -->
 		</view>
 		<view v-else class="content">
 			<view class="data-container">
@@ -92,7 +79,6 @@
 				addressArray: [],
 				imageUrl: BASRIMAGEURL,
 				userid: '',
-				// goodsProducts: [],
 				datas: {},
 				statisticsIndex: false,
 				total: 0,
@@ -109,63 +95,16 @@
 			this.getUser();
 		},
 		methods: {
-			toAddAddress() {
-				// 新增地址
-				uni.navigateTo({
-					url: '/pages/self/address/addAddress/addAddress',
-				});
-			},
-			bindPickerChange(e, addressArray) {
-				this.addressIndex = e.target.value;
-				this.address = this.addressArray[e.target.value];
-				this.orderAddressId = this.addressArray[e.target.value].id;
-				//修改订单中的地址
-				this.orderList.map((item, index) => {
-					item.addressId = this.orderAddressId;
-				});
-			},
-			getAllAddress() {
+			getOrderAddress() {
+				let id = this.datas[0].orderList[0].addressId;
 				uni.request({
-					url: `${BASEURL}selectAllAddressByUserId`,
+					url: `${BASEURL}selectAddressDetailById`,
 					headers: {
 						'Content-Type': 'application/json'
 					},
 					method: 'GET',
 					data: {
-						userId: this.userid,
-					},
-					success: (res) => {
-						let resp = res.data.data;
-						if (resp != null) {
-							this.ifAddress = true;
-						}
-						// this.addressArray = resp;
-						//添加元素
-						let array = [];
-						resp.map((item, index) => {
-							array.push(
-								Object.assign(item, {
-									picktext: item.name + '  ' + item.area + item.detail
-								})
-							);
-						});
-						this.addressArray = array;
-						//地址id
-						this.orderAddressId = this.addressArray[this.addressIndex].id;
-		
-					},
-					fail() {}
-				});
-			},
-			getDefaultAddress() {
-				uni.request({
-					url: `${BASEURL}selectDefaultAddresss`,
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					method: 'GET',
-					data: {
-						userId: this.userid,
+						id: id
 					},
 					success: (res) => {
 						let resp = res.data.data;
@@ -189,13 +128,16 @@
 					method: 'GET',
 					data: {
 						userId: this.userid,
-						state: 1,
+						state: 2,
 						orderList: this.orderList
 					},
 					success: (res) => {
 						let resp = res.data.data;
 						this.datas = resp;
+						console.log('==============');
+						console.log(this.datas)
 						this.statistics();
+						this.getOrderAddress();
 					},
 					fail() {
 
@@ -213,13 +155,7 @@
 					key: 'user',
 					success: function(res) {
 						_this.userid = res.data.id;
-						if (_this.orderList.length === 0) {
-							_this.getUnPayOrder();
-						} else {
-							_this.getCheckOrder();
-						}
-						// _this.getDefaultAddress();
-						_this.getAllAddress();
+						_this.getCheckOrder();
 					}
 				});
 			},
@@ -238,97 +174,10 @@
 				this.total = total.toFixed(2);
 				this.freightPrice = freightPrice.toFixed(2);
 			},
-			accounts() {
-				let judge = this.judgeSelect();
-				if (judge.length > 0) {
-					console.log(judge)
-					// 修改order的状态
-					uni.request({
-						url: `${BASEURL}updateOrderListStateBuy`,
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						method: 'POST',
-						data: judge,
-						success: (res) => {
-							let resp = res.data.data;
-							if (resp !== null) {
-								this.toPaySuccess();
-							}
-						},
-						fail() {
-
-						}
-					});
-
-
-				} else {
-					uni.showToast({
-						title: '您当前未选择任何商品,结算失败',
-						icon: 'none'
-					})
-				}
-			},
-			judgeSelect() {
-				// let judge = false
-				let selectArr = [];
-				let addressid = this.orderAddressId;
-				this.datas.find((item, index) => {
-					//修改订单中的地址
-					item.orderList.map((item1, index) => {
-						item1.addressId = addressid;
-					});
-					console.log('==============');
-					console.log(this.orderList);
-					item.goodsList.find((itemq, indexq) => {
-						// if (itemq.checked == 2) {
-						// judge = true
-						selectArr.push(item.orderList[indexq])
-						// }
-					})
-				})
-				// return judge
-				console.log('-------------');
-				console.log(this.orderList);
-				console.log(selectArr);				
-				return selectArr
-			},
-			toPaySuccess() {
-				uni.navigateTo({
-					url: '/pages/shop/paySuccess/paySuccess',
-				});
-			},
-			getUnPayOrder() {
-				//查看未付款的订单信息
-				uni.request({
-					url: `${BASEURL}selectUnPayedOrder`,
-					headers: {
-						'Content-Type': 'application/json'
-					},
-					method: 'GET',
-					data: {
-						userId: this.userid,
-						state: 1,
-					},
-					success: (res) => {
-						let resp = res.data.data;
-						this.orderList = resp;
-						this.getCheckOrder();
-
-					},
-					fail() {
-
-					}
-				});
-			},
+			
 		},
 		onLoad(option) {
-			if (option.orderList !== undefined) {
-				this.orderList = JSON.parse(option.orderList);
-			}
-
 			this.getUser();
-
 		}
 	}
 </script>
@@ -586,8 +435,7 @@
 									font-size: 33rpx;
 									font-weight: 400;
 									color: #666666;
-									// border-top: 1px solid #CFCFCF;
-									// border-bottom: 1px solid #CFCFCF;
+									
 								}
 							}
 						}
@@ -644,7 +492,7 @@
 					.btn {
 						width: 218rpx;
 						height: 98rpx;
-						background: #FBBC02;
+						// background: #FBBC02;
 						text-align: center;
 						line-height: 98rpx;
 						font-size: 30rpx;

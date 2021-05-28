@@ -95,7 +95,7 @@
 		<uni-popup ref="orderPopup" type="bottom">
 			<view class="orderPopup">
 				<view class="order-goods">
-					<image class="order-goods-img" :mode="aspectFill" :src="carousels[0].image"></image>
+					<image class="order-goods-img" style="width: 120px;height: 120px;" :mode="aspectFill" :src="carousels[0].image"></image>
 					<view class="order-title">{{goods.title}}</view>
 				</view>
 				<view class="order-num">
@@ -206,7 +206,21 @@
 						orderPrice:this.goods.salePrice
 					}, 
 					success: (res) => {
-						let resp = res.data.data;	
+						let resp = res.data.data;
+						let code = res.data.code;
+						if(code !== 200){
+							uni.showToast({
+								icon:'none',
+							    title: '购物车中此商品已存在！',
+							    duration: 2000
+							});
+						}else{
+							uni.showToast({
+								icon:'success',
+							    title: '添加购物车成功',
+							    duration: 2000
+							});
+						}
 						this.goodsAddCancle();
 					},
 					fail() {
@@ -228,8 +242,6 @@
 						let resp = res.data.data;
 						this.goods = resp;
 						this.carousels = resp.carousels;
-						console.log(this.goods)
-						console.log('--------------')
 					},
 					fail() {
 
@@ -510,16 +522,17 @@
 		justify-content: space-between;
 		flex-wrap: wrap;
 		.order-goods{
-			width: 90%;
+			width: 95%;
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
 			.order-goods-img{
-				width: 120px;
-				height: 120px;
+				width: 120px!important;
+				height: 120px!important;
 			}
 			.order-title{
-				
+				width: 80%;
+				padding-left: 10px;
 			}
 			
 			

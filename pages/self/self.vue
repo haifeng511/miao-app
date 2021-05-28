@@ -39,7 +39,7 @@
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/6.png'"></image>
 					<view>待付款</view>
 				</view>
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toUnreceiptedGoods()">
 					<image class="self-icon" :mode="aspectFill" :src="imageUrl+ 'self/7.png'"></image>
 					<view>待收货</view>
 				</view>
@@ -53,9 +53,9 @@
 		<view class="self-list">
 			<view class="self-text">更多功能</view>
 			<view class="self-list-icon">
-				<view class="image-text" @click="toCategoryGoods(0)">
+				<view class="image-text" @click="toCatIdentiflcation()">
 					<image class="self-icon" :mode="aspectFit" :src="imageUrl+ 'self/9.png'"></image>
-					<view>宠物识别</view>
+					<view>猫咪识别</view>
 				</view>
 				<view class="image-text" @click="toNoDataPage()">
 					<image class="self-icon" :mode="scaleToFill" :src="imageUrl+ 'self/10.png'"></image>
@@ -138,6 +138,16 @@
 				uni.navigateTo({
 					url: '/pages/self/noData/noData',
 				});
+			},
+			toCatIdentiflcation(){
+				uni.navigateTo({
+					url: '/pages/self/catIdentification/catIdentification',
+				});
+			},
+			toUnreceiptedGoods(){
+				uni.navigateTo({
+					url: '/pages/shop/unreceiptedGoods/unreceiptedGoods',
+				});
 			}
 		},
 		mounted() {
@@ -182,6 +192,7 @@
 			
 			.image-text {
 				padding: 10px 0;
+				text-align: center;
 				
 				.self-icon {
 					padding: 5px;

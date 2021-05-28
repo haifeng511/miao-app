@@ -247,6 +247,7 @@
 					},
 					method: 'POST',
 					data: {
+						orderPrice: this.datas[storeIndex].goodsList[goodsIndex].salePrice * this.datas[storeIndex].orderList[goodsIndex].orderNum,
 						orderNum: this.datas[storeIndex].orderList[goodsIndex].orderNum,
 						id: this.datas[storeIndex].orderList[goodsIndex].id,
 					},
@@ -262,6 +263,7 @@
 			add(storeIndex, goodsIndex, goodsnum) {
 				this.datas[storeIndex].orderList[goodsIndex].orderNum++
 				this.statistics();
+				let orderPrice = this.datas[storeIndex].goodsList[goodsIndex].salePrice * this.datas[storeIndex].orderList[goodsIndex].orderNum;
 				//修改order
 				uni.request({
 					url: `${BASEURL}updateOrder`,
@@ -270,6 +272,7 @@
 					},
 					method: 'POST',
 					data: {
+						"orderPrice": orderPrice,
 						"orderNum": this.datas[storeIndex].orderList[goodsIndex].orderNum,
 						"id": this.datas[storeIndex].orderList[goodsIndex].id,
 					},
