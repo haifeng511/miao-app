@@ -18,10 +18,6 @@
 									<view class="address-detail">
 										{{addressArray[addressIndex].area}}{{addressArray[addressIndex].detail}}</view>
 								</view>
-								<!-- 	<view class="edit">
-									<uni-icons type="compose" size="26" color="#cdcdcd" @click="toEditAddress(address)">
-									</uni-icons>
-								</view> -->
 							</picker>
 						</view>
 
